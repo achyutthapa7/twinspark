@@ -1,6 +1,8 @@
+import { NextFunction, Request, Response } from "express";
 import { model, models, Schema } from "../../config/db";
 import { userType } from "../../types";
-
+import bcrypt from "bcrypt";
+import { CallbackError } from "mongoose";
 const schema = new Schema<userType.Iuser>(
   {
     username: {
@@ -8,11 +10,8 @@ const schema = new Schema<userType.Iuser>(
       type: String,
       required: true,
       unique: true,
-      minLength: [3, { message: "username cannot be less than 3 character" }],
-      maxLength: [
-        20,
-        { message: "username cannot be greater than 20 character" },
-      ],
+      minLength: [3, "username cannot be less than 3 character"],
+      maxLength: [20, "username cannot be greater than 20 character"],
     },
     email: {
       trim: true,
@@ -45,9 +44,19 @@ const schema = new Schema<userType.Iuser>(
     },
     otpCreatedAt: {
       type: Date,
-      default: Date.now(),
+      default: Date.now,
+    },
+    otpExpiresAt: {
+      type: Date,
+      default: Date.now,
+    },
+    role: {
+      type: String,
+      enum: ["admin", "user", "moderator"],
+      default: "user",
     },
   },
   { timestamps: true }
 );
+
 export const user = models.users || model<userType.Iuser>("users", schema);

@@ -3,10 +3,9 @@ import { routeType } from "../types";
 
 export const userRoutes: routeType.IRoute[] = [
   {
-    method: "get",
-    path: "users/get-user",
+    method: "post",
+    path: "users/sign-up",
     controller: controller.signUp,
-    authorization: true,
-    authCheckType: ["user"],
+    authorization: false,
   },
 ];
