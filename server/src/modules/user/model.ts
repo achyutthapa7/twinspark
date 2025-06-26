@@ -55,6 +55,10 @@ const schema = new Schema<userType.Iuser>(
       enum: ["admin", "user", "moderator"],
       default: "user",
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

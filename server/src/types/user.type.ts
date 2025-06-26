@@ -14,4 +14,5 @@ export interface Iuser extends Document {
   otpExpiresAt?: Date;
   otpUsed?: boolean;
   role?: Role;
+  isVerified?: boolean;
 }

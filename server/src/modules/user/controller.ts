@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import catchAsync from "../../helper/catchAsync";
+import catchAsync from "../../utils/catchAsync";
 import { validation } from "./validation";
 import { service } from "./service";
 
