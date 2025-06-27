@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import catchAsync from "../../utils/catchAsync";
 import { validation } from "./validation";
 import { service } from "./service";
+import { AuthenticatedRequest } from "../../types";
 
 const controller = {
   signUp: catchAsync(
@@ -19,14 +20,22 @@ const controller = {
   ),
 
   login: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { token, existingUser } = await service.login(req.body);
+    const { refreshToken, accessToken, username, email, role } =
+      await service.login(req.body);
+    res.status(200).json({
+      message: "Login success!",
+      data: { refreshToken, accessToken, username, email, role },
+    });
+  }),
+  refreshToken: catchAsync(async (req: Request, res: Response) => {
+    const { newAccessToken } = await service.refreshToken(req.body);
     res
       .status(200)
-      .json({ message: "Login success!", data: { token, existingUser } });
+      .json({ message: "New Access Token Created", data: newAccessToken });
   }),
-
   logout: catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+      await service.logout(req?.user);
       res.status(200).json({ message: "Login success!" });
     }
   ),

@@ -6,24 +6,31 @@ interface IPayload extends JwtPayload {
   id: string;
 }
 
-const jwtSign = (payload: IPayload): string => {
+type TokenType = "access" | "refresh";
+
+const jwtSign = (payload: IPayload, type: TokenType = "access"): string => {
   try {
-    const token = jwt.sign(payload, env.JWT_SECRET as string, {
-      expiresIn: "15m",
-    });
+    const secret =
+      type === "access" ? env.JWT_SECRET_ACCESS : env.JWT_SECRET_REFRESH;
+    const expiresIn = type === "access" ? "15m" : "7d";
+
+    const token = jwt.sign(payload, secret as string, { expiresIn });
     return token;
   } catch (error) {
-    console.error("JWT Sign Error:", error);
-    throw new Error("Token signing failed");
+    console.error(`JWT ${type} Sign Error:`, error);
+    throw new Error(`Token (${type}) signing failed`);
   }
 };
 
-const jwtVerify = (token: string): IPayload => {
+const jwtVerify = (token: string, type: TokenType = "access"): IPayload => {
   try {
-    const decoded = jwt.verify(token, env.JWT_SECRET as string) as IPayload;
+    const secret =
+      type === "access" ? env.JWT_SECRET_ACCESS : env.JWT_SECRET_REFRESH;
+
+    const decoded = jwt.verify(token, secret as string) as IPayload;
     return decoded;
   } catch (error) {
-    console.error("JWT Verify Error:", error);
+    console.error(`JWT ${type} Verify Error:`, error);
     throw new Error("Invalid or expired token");
   }
 };

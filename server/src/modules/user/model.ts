@@ -37,6 +37,7 @@ const schema = new Schema<userType.Iuser>(
     otp: {
       type: Number,
       trim: true,
+      default: null,
     },
     otpUsed: {
       type: Boolean,
@@ -58,6 +59,10 @@ const schema = new Schema<userType.Iuser>(
     isVerified: {
       type: Boolean,
       default: false,
+    },
+    token: {
+      type: String,
+      default: null,
     },
   },
   { timestamps: true }
