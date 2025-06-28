@@ -7,6 +7,7 @@ const schema = new Schema<Iinterest>(
       type: Schema.Types.ObjectId,
       ref: "users",
       required: true,
+      index: true,
     },
     interests: {
       type: [String],

@@ -33,4 +33,11 @@ export const userRoutes: routeType.IRoute[] = [
     authorization: true,
     authCheckType: ["user"],
   },
+  {
+    method: "get",
+    path: "users/get-suggestions",
+    controller: controller.getSuggesstions,
+    authorization: true,
+    authCheckType: ["user"],
+  },
 ];

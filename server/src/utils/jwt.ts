@@ -26,7 +26,6 @@ const jwtVerify = (token: string, type: TokenType = "access"): IPayload => {
   try {
     const secret =
       type === "access" ? env.JWT_SECRET_ACCESS : env.JWT_SECRET_REFRESH;
-
     const decoded = jwt.verify(token, secret as string) as IPayload;
     return decoded;
   } catch (error) {

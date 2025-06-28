@@ -19,6 +19,7 @@ const schema = new Schema<userType.Iuser>(
       required: true,
       unique: true,
       match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email format"],
+      index: true,
     },
     password: {
       type: String,
@@ -33,6 +34,10 @@ const schema = new Schema<userType.Iuser>(
       type: String,
       enum: ["😊", "😢", "😡", "😍", "🤔", "😴", "😎", "😇", "🥳", "😕"],
       default: "😊",
+    },
+    refreshToken: {
+      type: String,
+      default: null,
     },
     otp: {
       type: Number,
@@ -60,9 +65,13 @@ const schema = new Schema<userType.Iuser>(
       type: Boolean,
       default: false,
     },
-    token: {
-      type: String,
-      default: null,
+    tokenVersion: {
+      type: Number,
+      default: 0,
+    },
+    isLoggedIn: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

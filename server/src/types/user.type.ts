@@ -15,5 +15,7 @@ export interface Iuser extends Document {
   otpUsed?: boolean;
   role?: Role;
   isVerified?: boolean;
-  token?: string | null;
+  refreshToken?: string | null;
+  tokenVersion?: number;
+  isLoggedIn?: boolean;
 }

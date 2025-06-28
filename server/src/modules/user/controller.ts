@@ -7,8 +7,8 @@ import { AuthenticatedRequest } from "../../types";
 const controller = {
   signUp: catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      const user = await service.createUser(req.body);
-      res.status(201).json({ message: "Signup success!", data: user });
+      const { newUser } = await service.createUser(req.body);
+      res.status(201).json({ message: "Signup success!", data: newUser });
     }
   ),
 
@@ -28,15 +28,29 @@ const controller = {
     });
   }),
   refreshToken: catchAsync(async (req: Request, res: Response) => {
-    const { newAccessToken } = await service.refreshToken(req.body);
+    const { token } = req.body;
+    if (!token || typeof token !== "string") {
+      return res
+        .status(400)
+        .json({ message: "Refresh token must be provided" });
+    }
+    const { newAccessToken } = await service.refreshToken(token);
     res
       .status(200)
-      .json({ message: "New Access Token Created", data: newAccessToken });
+      .json({ message: "New Access Token Created", newAccessToken });
   }),
+
   logout: catchAsync(
     async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
       await service.logout(req?.user);
-      res.status(200).json({ message: "Login success!" });
+      res.status(200).json({ message: "logout success!" });
+    }
+  ),
+
+  getSuggesstions: catchAsync(
+    async (req: AuthenticatedRequest, res: Response) => {
+      const { suggestedUsers } = await service.getUserSuggestions(req?.user);
+      res.status(200).json({ message: "success", suggestedUsers });
     }
   ),
 };

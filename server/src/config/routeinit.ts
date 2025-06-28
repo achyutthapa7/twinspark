@@ -3,8 +3,9 @@ import checkAuthentication from "../middlewares/checkAuthentication";
 import { userRoutes } from "../routes/user.route";
 
 import { routeType } from "../types";
+import { interestRoute } from "../routes/interest.route";
 
-const allRoutes: routeType.IRoute[] = [...userRoutes];
+const allRoutes: routeType.IRoute[] = [...userRoutes, ...interestRoute];
 const routeInit = (app: Express) => {
   allRoutes.forEach((route) => {
     const { method, path, controller, authorization, authCheckType } = route;
