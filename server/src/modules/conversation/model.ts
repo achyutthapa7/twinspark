@@ -1,0 +1,30 @@
+import mongoose from "mongoose";
+import { model, models, Schema } from "../../config/db";
+import { boolean } from "zod";
+
+const schema = new Schema(
+  {
+    participants: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
+    status: {
+      type: String,
+      enum: ["pending", "icebreaker", "unlocked", "rejected"],
+      default: "pending",
+    },
+    initiateBy: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+    answers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "iceBreakers",
+      },
+    ],
+    type: { type: String, enum: ["permanent", "temporary"] },
+
+    messages: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "messages", default: [] },
+    ],
+  },
+  { timestamps: true }
+);
+
+export const conversation =
+  models.conversations || model("conversations", schema);

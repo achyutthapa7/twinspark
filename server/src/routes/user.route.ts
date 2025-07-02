@@ -40,4 +40,25 @@ export const userRoutes: routeType.IRoute[] = [
     authorization: true,
     authCheckType: ["user"],
   },
+  {
+    method: "post",
+    path: "users/:id/friend-request", //Become Twins
+    controller: () => {},
+    authorization: true,
+    authCheckType: ["user"],
+  },
+  {
+    method: "post",
+    path: "users/:id/friend-accept", //accept to become twins
+    controller: () => {},
+    authorization: true,
+    authCheckType: ["user"],
+  },
+  {
+    method: "post",
+    path: "users/:id/friend-reject", //reject to become twins
+    controller: () => {},
+    authorization: true,
+    authCheckType: ["user"],
+  },
 ];

@@ -53,6 +53,7 @@ const controller = {
       res.status(200).json({ message: "success", suggestedUsers });
     }
   ),
+  
 };
 
 export { controller };

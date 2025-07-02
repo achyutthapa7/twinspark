@@ -113,14 +113,14 @@ export const service = {
 
   getUserSuggestions: async (user: any) => {
     const { id: myId } = user;
-
     const { interests: myInterests = [] } = await userRepository.myInterests(
       myId
     );
-
     const limit = 5;
     const pipeline = buildSuggestionPipeline(myId, myInterests, limit);
     const suggestedUsers = await interest.aggregate(pipeline);
     return { suggestedUsers };
   },
+
+  conversationRequest: async (user: any, receiverId: string) => {},
 };
