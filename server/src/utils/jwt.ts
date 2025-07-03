@@ -12,7 +12,7 @@ const jwtSign = (payload: IPayload, type: TokenType = "access"): string => {
   try {
     const secret =
       type === "access" ? env.JWT_SECRET_ACCESS : env.JWT_SECRET_REFRESH;
-    const expiresIn = type === "access" ? "15m" : "7d";
+    const expiresIn = type === "access" ? "20d" : "99d";
 
     const token = jwt.sign(payload, secret as string, { expiresIn });
     return token;

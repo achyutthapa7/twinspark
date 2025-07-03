@@ -4,8 +4,15 @@ import { userRoutes } from "../routes/user.route";
 
 import { routeType } from "../types";
 import { interestRoute } from "../routes/interest.route";
+import { conversationRoutes } from "../routes/conversation.route";
+import { iceBreakerRoutes } from "../routes/icebreak.route";
 
-const allRoutes: routeType.IRoute[] = [...userRoutes, ...interestRoute];
+const allRoutes: routeType.IRoute[] = [
+  ...userRoutes,
+  ...interestRoute,
+  ...conversationRoutes,
+  ...iceBreakerRoutes,
+];
 const routeInit = (app: Express) => {
   allRoutes.forEach((route) => {
     const { method, path, controller, authorization, authCheckType } = route;

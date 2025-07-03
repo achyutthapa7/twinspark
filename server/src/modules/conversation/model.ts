@@ -14,7 +14,7 @@ const schema = new Schema(
     answers: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "iceBreakers",
+        ref: "icebreakers",
       },
     ],
     type: { type: String, enum: ["permanent", "temporary"] },
@@ -27,4 +27,4 @@ const schema = new Schema(
 );
 
 export const conversation =
-  models.conversations || model("conversations", schema);
+  mongoose.models.conversations || mongoose.model("conversations", schema);

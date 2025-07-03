@@ -5,7 +5,7 @@ const schema = new mongoose.Schema(
   {
     conversationId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Conversation",
+      ref: "conversations",
       required: true,
     },
     answerBy: {
@@ -25,4 +25,5 @@ const schema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const iceBreaker = models.icebreakers || model("icebreakers", schema);
+export const iceBreaker =
+  mongoose.models.icebreakers || mongoose.model("icebreakers", schema);
