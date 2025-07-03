@@ -1,3 +1,4 @@
+import { conversation } from "../conversation/model";
 import { repository } from "./repository";
 
 export const service = {
@@ -10,6 +11,9 @@ export const service = {
     message: string;
     myId: string;
   }) => {
+    const convo = await conversation.findById(conversationId);
+    if (convo.status != "unlocker")
+      throw new Error("conversation is not unlocked");
     const payload = {
       conversationId,
       message,
