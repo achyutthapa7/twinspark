@@ -18,4 +18,18 @@ export const repository = {
       },
       { new: true }
     ),
+  pullMessageFromConversation: async ({
+    conversationId,
+    messageId,
+  }: {
+    conversationId: string;
+    messageId: string;
+  }) =>
+    await conversation.findByIdAndUpdate(
+      conversationId,
+      {
+        $pull: { messages: messageId },
+      },
+      { new: true }
+    ),
 };

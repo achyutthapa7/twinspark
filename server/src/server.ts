@@ -6,10 +6,12 @@ import { Server } from "socket.io";
 import app from "./app";
 import { socketHandler } from "./socket";
 import { connectDB } from "./config/db";
+import { registerCrons } from "./schedulers";
 
 const startServer = async () => {
   try {
     await connectDB();
+    await registerCrons();
     const server = http.createServer(app);
     const io = new Server(server, {
       cors: {

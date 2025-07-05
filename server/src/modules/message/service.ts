@@ -12,8 +12,9 @@ export const service = {
     myId: string;
   }) => {
     const convo = await conversation.findById(conversationId);
-    if (convo.status != "unlocker")
+    if (convo.status != "unlocked")
       throw new Error("conversation is not unlocked");
+    if (convo.convesationExpires) throw new Error("conversation is expired");
     const payload = {
       conversationId,
       message,
@@ -25,5 +26,11 @@ export const service = {
       messageId: newMessage,
     });
     return { newMessage };
+  },
+
+  remove: async (messageId: string, conversationId: string) => {
+    const data = await repository.general.delete(messageId);
+    await repository.pullMessageFromConversation({ conversationId, messageId });
+    return { data };
   },
 };

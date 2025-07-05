@@ -17,9 +17,16 @@ const schema = new Schema(
         ref: "icebreakers",
       },
     ],
-    type: { type: String, enum: ["permanent", "temporary"] },
-
-    messages: [
+    type: {
+      type: String,
+      enum: ["permanent", "temporary"],
+      default: "temporary",
+    },
+    convesationExpires: {
+      type: boolean,
+      default: false,
+    },
+    mesages: [
       { type: mongoose.Schema.Types.ObjectId, ref: "messages", default: [] },
     ],
   },

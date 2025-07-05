@@ -9,7 +9,7 @@ export const service = {
     if (!existed) {
       await conversation.create({
         participants: participantsIds,
-        status: "pending",
+        status: " ",
         initiateBy: senderId,
       });
       return res

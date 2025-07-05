@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 
 import catchAsync from "../../utils/catchAsync";
 import { AuthenticatedRequest } from "../../types";
@@ -18,5 +18,13 @@ export const controller = {
     return res
       .status(201)
       .json({ message: "message sent successfully", data: newMessage });
+  }),
+
+  remove: catchAsync(async (req: Request, res: Response) => {
+    const { messageId, conversationId } = req.params;
+    const { data } = await service.remove(messageId, conversationId);
+    return res
+      .status(200)
+      .json({ message: "Message deleted successfully", data });
   }),
 };

@@ -14,7 +14,6 @@ export const service = {
       (answer: { answerBy: string; answer: string }) =>
         answer.answerBy.toString() === id
     );
-
     if (hasAlreadyAnswered) throw new Error("Already answer");
     const payload = {
       conversationId,
