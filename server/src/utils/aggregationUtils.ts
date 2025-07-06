@@ -1,10 +1,10 @@
 import mongoose, { PipelineStage } from "mongoose";
 
-function buildSuggestionPipeline(
+const buildSuggestionPipeline = (
   myId: string,
   myInterests: string[],
   limit = 5
-): PipelineStage[] {
+): PipelineStage[] => {
   return [
     {
       $match: {
@@ -69,5 +69,27 @@ function buildSuggestionPipeline(
       },
     },
   ];
-}
-export { buildSuggestionPipeline };
+};
+const buildConvesationPipeline = (id: string): PipelineStage[] => {
+  console.log(id);
+  return [
+    {
+      $match: { participants: { $in: [new mongoose.Types.ObjectId(id)] } },
+    },
+    {
+      $lookup: {
+        from: "messages",
+        localField: "lastMessage",
+        foreignField: "_id",
+        as: "lastMessage",
+      },
+    },
+    {
+      $unwind: {
+        path: "$lastMessage",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+  ];
+};
+export { buildSuggestionPipeline, buildConvesationPipeline };

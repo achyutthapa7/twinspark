@@ -7,6 +7,12 @@ import { jwtSign, jwtVerify } from "../../utils/jwt";
 import { userRepository } from "./repository";
 import { interest } from "../interest/model";
 import { buildSuggestionPipeline } from "../../utils/aggregationUtils";
+import {
+  hasReceivedFriendRequest,
+  hasSentFriendRequest,
+  isAlreadyFriends,
+  removeRequest,
+} from "../../utils/friendstatus";
 
 export const service = {
   createUser: async (payload: userType.Iuser) => {
@@ -122,5 +128,109 @@ export const service = {
     return { suggestedUsers };
   },
 
-  conversationRequest: async (user: any, receiverId: string) => {},
+  sendFriendRequest: async ({
+    senderId,
+    receiverId,
+  }: {
+    senderId: string;
+    receiverId: string;
+  }) => {
+    const me = await userRepository.general.findById(senderId);
+    const receiver = await userRepository.general.findById(receiverId);
+
+    if (!me || !receiver) throw new Error("User not found.");
+
+    if (
+      hasReceivedFriendRequest(receiver, me._id) ||
+      hasSentFriendRequest(me, receiver._id)
+    ) {
+      throw new Error("You have already sent a friend request to this user.");
+    }
+
+    if (
+      isAlreadyFriends(me, receiver._id) &&
+      isAlreadyFriends(receiver, me._id)
+    ) {
+      throw new Error("You are already friends.");
+    }
+
+    receiver.receivedRequests.push(me._id);
+    me.sentRequests.push(receiver._id);
+
+    await me.save();
+    await receiver.save();
+
+    return {
+      message: `${me.username} sent a request to become permanent with ${receiver.username}`,
+    };
+  },
+
+  acceptFriendRequest: async ({
+    senderId,
+    receiverId,
+    conversationId,
+  }: {
+    senderId: string;
+    receiverId: string;
+    conversationId: string;
+  }) => {
+    const conversation = await userRepository.conversation.findById(
+      conversationId
+    );
+    const sender = await userRepository.general.findById(senderId);
+    const receiver = await userRepository.general.findById(receiverId);
+
+    if (!sender || !receiver || !conversation)
+      throw new Error("Required data not found.");
+
+    if (!hasReceivedFriendRequest(receiver, sender._id)) {
+      throw new Error("No pending friend request from this user.");
+    }
+
+    if (isAlreadyFriends(receiver, sender._id)) {
+      throw new Error("You are already friends.");
+    }
+
+    receiver.receivedRequests = removeRequest(
+      receiver.receivedRequests,
+      sender._id
+    );
+    sender.sentRequests = removeRequest(sender.sentRequests, receiver._id);
+    receiver.acceptedRequests.push(sender._id);
+    sender.acceptedRequests.push(receiver._id);
+    conversation.type = "permanent";
+    await receiver.save();
+    await sender.save();
+    await conversation.save();
+    return {
+      message: `${receiver.username} accepted the friend request from ${sender.username}`,
+    };
+  },
+  rejectFriendRequest: async ({
+    senderId,
+    receiverId,
+  }: {
+    senderId: string;
+    receiverId: string;
+  }) => {
+    const sender = await userRepository.general.findById(senderId);
+    const receiver = await userRepository.general.findById(receiverId);
+
+    if (!sender || !receiver) throw new Error("User not found.");
+
+    if (!hasReceivedFriendRequest(receiver, sender._id)) {
+      throw new Error("No pending friend request from this user.");
+    }
+
+    receiver.receivedRequests = removeRequest(
+      receiver.receivedRequests,
+      sender._id
+    );
+    sender.sentRequests = removeRequest(sender.sentRequests, receiver._id);
+    await receiver.save();
+    await sender.save();
+    return {
+      message: `${receiver.username} rejected the friend request from ${sender.username}`,
+    };
+  },
 };

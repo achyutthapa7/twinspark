@@ -25,4 +25,12 @@ export const controller = {
       await service.reject(receiverId, senderId, res);
     }
   ),
+
+  getConversations: catchAsync(
+    async (req: AuthenticatedRequest, res: Response) => {
+      const { id } = req.user!;
+      const { conversations } = await service.fetchConversations(id);
+      return res.status(200).json({ message: "success", data: conversations });
+    }
+  ),
 };

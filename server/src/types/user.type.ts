@@ -3,6 +3,7 @@ import { Document } from "mongoose";
 type Gender = "male" | "female" | "others";
 type Mood = "😊" | "😢" | "😡" | "😍" | "🤔" | "😴" | "😎" | "😇" | "🥳" | "😕";
 export type Role = "admin" | "user" | "moderator";
+
 export interface Iuser extends Document {
   username: string;
   email: string;
@@ -18,4 +19,8 @@ export interface Iuser extends Document {
   refreshToken?: string | null;
   tokenVersion?: number;
   isLoggedIn?: boolean;
+  receivedRequests?: any[];
+  acceptedRequests?: any[];
+  rejectedRequests?: any[];
+  sentRequests?: any[];
 }

@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { model, models, Schema } from "../../config/db";
-import { boolean } from "zod";
 
 const schema = new Schema(
   {
@@ -22,13 +21,18 @@ const schema = new Schema(
       enum: ["permanent", "temporary"],
       default: "temporary",
     },
-    convesationExpires: {
-      type: boolean,
+    conversationExpires: {
+      type: Boolean,
       default: false,
     },
-    mesages: [
+    messages: [
       { type: mongoose.Schema.Types.ObjectId, ref: "messages", default: [] },
     ],
+    lastMessage: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "messages",
+      default: null,
+    },
   },
   { timestamps: true }
 );

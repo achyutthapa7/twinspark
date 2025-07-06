@@ -21,9 +21,10 @@ export const service = {
       senderId: myId,
     };
     const newMessage = await repository.general.create(payload);
+    console.log("sfsfsdfsdf", newMessage?._id.toString());
     await repository.pushMessageToConversation({
       conversationId,
-      messageId: newMessage,
+      messageId: newMessage._id.toString(),
     });
     return { newMessage };
   },

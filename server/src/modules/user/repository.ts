@@ -1,4 +1,5 @@
 import { userType } from "../../types";
+import { conversation } from "../conversation/model";
 import { interest } from "../interest/model";
 import { createRepository } from "../shared/repositoryFactory";
 import { user } from "./model";
@@ -23,6 +24,8 @@ const userRepository = {
       }
     );
   },
+
+  conversation: createRepository(conversation),
 };
 
 export { userRepository };

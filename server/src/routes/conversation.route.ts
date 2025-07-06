@@ -23,4 +23,11 @@ export const conversationRoutes: routeType.IRoute[] = [
     authorization: true,
     authCheckType: ["user"],
   },
+  {
+    method: "get",
+    path: "conversation/get", // spark reject
+    controller: controller.getConversations,
+    authorization: true,
+    authCheckType: ["user"],
+  },
 ];

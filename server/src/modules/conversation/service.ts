@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { conversation } from "./model";
 import { repository } from "./repository";
+import { buildConvesationPipeline } from "../../utils/aggregationUtils";
 
 export const service = {
   create: async (receiverId: string, senderId: string, res: Response) => {
@@ -9,7 +10,6 @@ export const service = {
     if (!existed) {
       await conversation.create({
         participants: participantsIds,
-        status: " ",
         initiateBy: senderId,
       });
       return res
@@ -48,5 +48,11 @@ export const service = {
     return res.status(400).json({
       message: "Cannot reject. Spark already accepted or processed.",
     });
+  },
+
+  fetchConversations: async (id: string) => {
+    const pipeline = buildConvesationPipeline(id);
+    const conversations = await conversation.aggregate(pipeline);
+    return { conversations };
   },
 };

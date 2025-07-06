@@ -42,22 +42,22 @@ export const userRoutes: routeType.IRoute[] = [
   },
   {
     method: "post",
-    path: "users/:id/friend-request", //Become Twins
-    controller: () => {},
+    path: "users/:receiverId/friend-request",
+    controller: controller.sendRequest,
     authorization: true,
     authCheckType: ["user"],
   },
   {
     method: "post",
-    path: "users/:id/friend-accept", //accept to become twins
-    controller: () => {},
+    path: "users/:senderId/:conversationId/friend-accept",
+    controller: controller.acceptRequest,
     authorization: true,
     authCheckType: ["user"],
   },
   {
     method: "post",
-    path: "users/:id/friend-reject", //reject to become twins
-    controller: () => {},
+    path: "users/:senderId/friend-reject",
+    controller: controller.rejectRequest,
     authorization: true,
     authCheckType: ["user"],
   },

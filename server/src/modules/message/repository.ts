@@ -10,14 +10,16 @@ export const repository = {
   }: {
     conversationId: string;
     messageId: string;
-  }) =>
+  }) => {
     await conversation.findByIdAndUpdate(
       conversationId,
       {
         $push: { messages: messageId },
+        $set: { lastMessageId: messageId },
       },
       { new: true }
-    ),
+    );
+  },
   pullMessageFromConversation: async ({
     conversationId,
     messageId,

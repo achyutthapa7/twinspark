@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { model, models, Schema } from "../../config/db";
 import { userType } from "../../types";
 import bcrypt from "bcrypt";
-import { CallbackError } from "mongoose";
+import mongoose, { CallbackError } from "mongoose";
 const schema = new Schema<userType.Iuser>(
   {
     username: {
@@ -54,7 +54,7 @@ const schema = new Schema<userType.Iuser>(
     },
     otpExpiresAt: {
       type: Date,
-      default: Date.now,
+      default: () => new Date(Date.now() + 5 * 60 * 1000),
     },
     role: {
       type: String,
@@ -73,6 +73,34 @@ const schema = new Schema<userType.Iuser>(
       type: Boolean,
       default: false,
     },
+    receivedRequests: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+        default: [],
+      },
+    ],
+    acceptedRequests: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+        default: [],
+      },
+    ],
+    rejectedRequests: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+        default: [],
+      },
+    ],
+    sentRequests: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+        default: [],
+      },
+    ],
   },
   { timestamps: true }
 );
