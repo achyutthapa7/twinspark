@@ -47,7 +47,7 @@ const controller = {
     }
   ),
 
-  getSuggesstions: catchAsync(
+  getSuggestions: catchAsync(
     async (req: AuthenticatedRequest, res: Response) => {
       const { suggestedUsers } = await service.getUserSuggestions(req?.user);
       res.status(200).json({ message: "success", suggestedUsers });
