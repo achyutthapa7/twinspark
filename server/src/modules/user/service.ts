@@ -123,6 +123,7 @@ export const service = {
       myId
     );
     const limit = 5;
+    console.log({ myId });
     const pipeline = buildSuggestionPipeline(myId, myInterests, limit);
     const suggestedUsers = await interest.aggregate(pipeline);
     return { suggestedUsers };

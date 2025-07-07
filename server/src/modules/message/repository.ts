@@ -15,7 +15,7 @@ export const repository = {
       conversationId,
       {
         $push: { messages: messageId },
-        $set: { lastMessageId: messageId },
+        $set: { lastMessage: messageId },
       },
       { new: true }
     );
