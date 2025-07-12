@@ -21,9 +21,7 @@ export const userAPI = {
   logout: () => api.post(LOGOUT),
   getSuggestion: () => api.get(GET_SUGGESTIONS),
   sendRequest: (receiverId: string) => api.post(SEND_REQUEST({ receiverId })),
-
   acceptRequest: (senderId: string, conversationId: string) =>
     api.post(ACCEPT_REQUEST({ senderId, conversationId })),
-
   rejectRequest: (senderId: string) => api.post(REJECT_REQUEST({ senderId })),
 };
