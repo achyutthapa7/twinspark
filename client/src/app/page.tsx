@@ -1,9 +1,15 @@
 "use client";
 import React from "react";
-import LandingPage from "@/modules/landing/page/landing";
+import LandingPage from "./(routes)/(public)/landing/page/landing";
+import { env } from "@/utils/env";
 
-const page = () => {
-  return <LandingPage />;
+const Home = () => {
+  console.log(env.BASE_URL, "URL");
+  return (
+    <>
+      <LandingPage />
+    </>
+  );
 };
 
-export default page;
+export default Home;

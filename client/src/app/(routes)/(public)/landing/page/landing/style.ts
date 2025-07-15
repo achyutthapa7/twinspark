@@ -8,9 +8,8 @@ export const StyleLandingPage = styled.div`
 
 export const StyleChildrenWrapper = styled.div`
   display: flex;
-
   align-items: center;
-  height: 70%;
+  height: 80%;
   justify-content: space-evenly;
   width: 100%;
   padding: 0 80px;

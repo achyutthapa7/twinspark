@@ -8,6 +8,7 @@ import {
   RemoveMessageParams,
 } from "./type";
 
+
 export const API_ENDPOINTS = {
   USER: {
     SIGNUP: "users/sign-up",
@@ -58,3 +59,5 @@ export const API_ENDPOINTS = {
     GET_ALL: "conversation/get",
   },
 };
+
+

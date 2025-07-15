@@ -5,12 +5,12 @@ import {
   StyleIllustrationWrapper,
   StyleLandingPage,
 } from "./style";
-import Topbar from "@/shared/layout/topbar";
 import Typography from "@/shared/typography";
 import Column from "@/shared/column";
 import Row from "@/shared/row";
 import Button from "@/shared/button";
 import FeatureCard from "../../component/card/feature";
+import Topbar from "@/shared/layout/topbar";
 
 const LandingPage = () => {
   return (
@@ -41,7 +41,17 @@ const LandingPage = () => {
           <img src="/illustration.png" alt="" />
         </StyleIllustrationWrapper>
       </StyleChildrenWrapper>
-      <FeatureCard />
+      <Row stylerow="padding:0 80px">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <FeatureCard
+            key={i}
+            iconSrc="/chat.png"
+            title="Live Chat"
+            subtitle="Send Text messages
+and emojis instantly"
+          />
+        ))}
+      </Row>
     </StyleLandingPage>
   );
 };

@@ -1,10 +1,11 @@
+import { env } from "@/utils/env";
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: env.BASE_URL,
   timeout: 10000,
 });
-
+console.log("url", env.BASE_URL);
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("authToken");
   if (token) config.headers.Authorization = `Bearer ${token}`;

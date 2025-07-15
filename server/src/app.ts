@@ -12,12 +12,14 @@ const limiter = rateLimit({
   standardHeaders: "draft-8",
   legacyHeaders: false,
 });
+app.use(
+  cors({ origin: "*", methods: ["post", "put", "patch", "get", "update"] })
+);
 app.use(express.json());
 routeInit(app);
 app.use(errorHandler);
 app.use(helmet());
 app.use(morgan("dev"));
-app.use(cors());
 app.use(limiter);
 
 app.get("/", (_, res) => {

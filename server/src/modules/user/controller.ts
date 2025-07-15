@@ -20,11 +20,11 @@ const controller = {
   ),
 
   login: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { refreshToken, accessToken, username, email, role } =
+    const { refreshToken, accessToken, username, email, role, userId } =
       await service.login(req.body);
     res.status(200).json({
       message: "Login success!",
-      data: { refreshToken, accessToken, username, email, role },
+      data: { userId, refreshToken, accessToken, username, email, role },
     });
   }),
   refreshToken: catchAsync(async (req: Request, res: Response) => {

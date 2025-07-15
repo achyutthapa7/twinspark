@@ -55,8 +55,8 @@ export const service = {
   login: async (payload: { email: string; password: string }) => {
     const { email, password } = payload;
     const existingUser = await userRepository.general.findByEmail(email);
-    if (existingUser.isLoggedIn) throw new Error("Your are already logged in");
     if (!existingUser) throw new Error("Email doesn't exist");
+    // if (existingUser?.isLoggedIn) throw new Error("You are already logged in");
     if (!existingUser.isVerified)
       throw new Error("Your Email is not verified, please verify first");
     const isPasswordValid = await verifyPassword(
@@ -85,6 +85,7 @@ export const service = {
     });
 
     return {
+      userId: updatedUser._id,
       accessToken,
       refreshToken,
       username: updatedUser.username,

@@ -1,22 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Fredoka } from "next/font/google";
+// import { Geist, Geist_Mono, Fredoka } from "next/font/google";
 import "./globals.css";
 import MainProvider from "@/lib/Provider";
+import Topbar from "@/shared/layout/topbar";
+import { Toaster } from "react-hot-toast";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
-const fredoka = Fredoka({
-  variable: "--font-fredoka-mono",
-  subsets: ["latin"],
-});
+// const fredoka = Fredoka({
+//   variable: "--font-fredoka-mono",
+//   subsets: ["latin"],
+// });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -30,9 +32,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fredoka.className} antialiased`}>
+      <body>
+        <Toaster position="top-right" />
         <MainProvider>{children}</MainProvider>
       </body>
     </html>
   );
 }
+
+// className={`${fredoka.className} antialiased`}

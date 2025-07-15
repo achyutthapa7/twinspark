@@ -5,6 +5,7 @@ import { logout, setCredentials } from "../store/userSlice";
 import { userAPI } from "../api/userApi";
 import { AxiosResponse } from "axios";
 import { useRedux } from "@/hooks/useRedux";
+import toast from "react-hot-toast";
 
 export const useAuth = () => {
   type LoginPayload = {
@@ -14,7 +15,7 @@ export const useAuth = () => {
 
   type LoginResponse = {
     token: string;
-    user: any;
+    data: any;
   };
   const { dispatch, useAppSelector } = useRedux();
   const user = useAppSelector((state: RootState) => state.user.user);
@@ -25,13 +26,18 @@ export const useAuth = () => {
   >({
     mutationFn: userAPI.login,
     onSuccess: ({ data }) => {
-      localStorage.setItem("authToken", data.token);
-      dispatch(setCredentials(data.user));
+      localStorage.setItem("authToken", JSON.stringify(data.data));
+      dispatch(setCredentials(data?.data));
+      toast.success("logged in successfully");
+    },
+    onError: (err: any) => {
+      toast.error(err?.response?.data?.message || err.message);
     },
   });
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    toast.success("logged out successfully");
     dispatch(logout());
   };
 
@@ -39,7 +45,7 @@ export const useAuth = () => {
     user,
     isAuthenticated: !!user,
     login: loginMutation.mutateAsync,
-    isLoading: loginMutation,
+    isLoading: loginMutation.isPending,
     logout: handleLogout,
   };
 };

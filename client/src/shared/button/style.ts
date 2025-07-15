@@ -1,3 +1,4 @@
+"use client";
 import theme from "@/utils/theme";
 import styled from "styled-components";
 
@@ -14,7 +15,7 @@ export const StyleButton = styled.button<{ variant?: string }>`
   color: ${theme.colors.text};
   font-weight: 500;
   background-color: ${(props: any) =>
-    props.variant === "fill" ? props.theme.colors.accent : ""};
+    props.variant === "fill" ? props?.theme?.colors?.accent : ""};
   padding: 10px 26px;
   outline: none;
   border: none;
@@ -23,13 +24,13 @@ export const StyleButton = styled.button<{ variant?: string }>`
   cursor: pointer;
   &:hover {
     background-color: ${(props: any) =>
-      props.variant === "fill" ? "transparent" : props.theme.colors.accent};
+      props.variant === "fill" ? "transparent" : props?.theme?.colors?.accent};
 
     scale: 1.09;
   }
   &:active {
     background-color: ${(props: any) =>
-      props.variant === "fill" ? "transparent" : props.theme.colors.accent};
+      props.variant === "fill" ? "transparent" : props?.theme?.colors?.accent};
 
     scale: 0.98;
   }

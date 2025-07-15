@@ -17,6 +17,6 @@ export const StyleTypography = styled.p<TypogrpahyProps>`
   font-weight: ${({ weight }) => weight || "normal"};
   margin: 0;
   line-height: ${({ lineheight }) => lineheight || 1.6};
-  letter-spacing: ${({ spacing }) => spacing || "1.5px"};
+  letter-spacing: ${({ spacing }) => spacing || "1twpx"};
   ${({ styletypography }) => styletypography};
 `;
