@@ -1,28 +1,35 @@
 "use client";
 import Input from "@/shared/field/input";
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import { useAuth } from "../../hooks/useUser";
-import { useRedux } from "@/hooks/useRedux";
-import { RootState } from "@/lib/store/store";
+import { useRouter } from "next/navigation";
+import { validation } from "../../validations";
+import Button from "@/shared/button";
 
 const LoginPage = () => {
+  const [initialValues, setInitialValues] = useState({
+    email: "",
+    password: "",
+  });
+  const router = useRouter();
   const { login, isAuthenticated, logout, isLoading, user } = useAuth();
-  console.log(isAuthenticated);
+  useEffect(() => {
+    if (isAuthenticated) router.replace("/dashboard");
+  }, [isAuthenticated]);
 
+  const handleLogin = async (values: { email: string; password: string }) => {
+    const { email, password } = values;
+    await login({ email, password });
+  };
   return (
     <>
       <Formik
-        initialValues={{ email: "", password: "" }}
-        onSubmit={async (values) => {
-          const { email, password } = values;
-          await login({ email, password });
-        }}
-        validationSchema={yup.object({
-          email: yup.string().email("Invalid email").required("Required"),
-          password: yup.string().required("Required"),
-        })}
+        initialValues={initialValues}
+        onSubmit={handleLogin}
+        validationSchema={validation.login}
+        enableReinitialize
       >
         <Form>
           <Input
@@ -38,7 +45,8 @@ const LoginPage = () => {
             placeholder="Enter your password"
           />
 
-          <button type="submit">{isLoading ? "loading" : "submit"}</button>
+          <Button type="submit" title="Login" isLoading />
+          <Button type="reset" title="Reset" />
         </Form>
       </Formik>
 

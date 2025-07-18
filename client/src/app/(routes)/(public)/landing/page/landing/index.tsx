@@ -32,8 +32,8 @@ const LandingPage = () => {
               Fun & easy way to make new friends instantly!
             </Typography>
             <Row>
-              <Button title="Start Now" variant="fill" />
-              <Button title="Explore" variant="" />
+              <Button title="Start Now" variant="fill" type="button" />
+              <Button title="Explore" variant="" type="button" />
             </Row>
           </Column>
         </StyleContentWrapper>

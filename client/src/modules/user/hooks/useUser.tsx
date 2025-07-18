@@ -19,7 +19,7 @@ export const useAuth = () => {
   };
   const { dispatch, useAppSelector } = useRedux();
   const user = useAppSelector((state: RootState) => state.user.user);
-  const loginMutation = useMutation<
+  const { isPending, mutateAsync } = useMutation<
     AxiosResponse<LoginResponse>,
     Error,
     LoginPayload
@@ -44,8 +44,8 @@ export const useAuth = () => {
   return {
     user,
     isAuthenticated: !!user,
-    login: loginMutation.mutateAsync,
-    isLoading: loginMutation.isPending,
+    login: mutateAsync,
+    isLoading: isPending,
     logout: handleLogout,
   };
 };
