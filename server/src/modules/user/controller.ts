@@ -7,8 +7,16 @@ import { AuthenticatedRequest } from "../../types";
 const controller = {
   signUp: catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      const { newUser } = await service.createUser(req.body);
-      res.status(201).json({ message: "Signup success!", data: newUser });
+      const {
+        username,
+        email,
+        role,
+        _id: id,
+      } = await service.createUser(req.body);
+      res.status(201).json({
+        message: "Signup success!",
+        data: { username, email, role, _id: id },
+      });
     }
   ),
 

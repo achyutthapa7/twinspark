@@ -1,6 +1,7 @@
 "use client";
-import { useRedux } from "@/hooks/useRedux";
+
 import { RootState } from "@/lib/store/store";
+import { useRedux } from "@/shared/hooks/useRedux";
 import Loader from "@/shared/loader";
 import { useRouter } from "next/navigation";
 import React, { Fragment, ReactNode, useEffect } from "react";
@@ -12,7 +13,7 @@ const layout = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!user) router.replace("/login");
   }, [router]);
-  if (!user) return <Loader />;
+  if (!user) return null;
   return <Fragment>{children}</Fragment>;
 };
 

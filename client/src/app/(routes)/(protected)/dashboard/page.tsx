@@ -1,9 +1,8 @@
-import React from 'react'
+import Suggesstions from "@/modules/user/pages/suggestions";
+import React from "react";
 
 const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
+  return <Suggesstions />;
+};
 
-export default Dashboard
+export default Dashboard;

@@ -14,7 +14,7 @@ const {
 } = API_ENDPOINTS.USER;
 
 export const userAPI = {
-  signup: <T>(credentials: T) => api.post(SIGNUP, credentials),
+  signup: <T>(payload: T) => api.post(SIGNUP, payload),
   verification: <T>(payload: T) => api.post(VERIFICATION, payload),
   login: <T>(credentials: T) => api.post(LOGIN, credentials),
   refreshToken: <T>(payload: T) => api.post(REFRESH_TOKEN, payload),

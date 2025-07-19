@@ -1,6 +1,5 @@
 import { userType } from "../../types";
 import { validation } from "./validation";
-
 import { createOtp } from "../../utils/otp";
 import { hashPassword, verifyPassword } from "../../utils/bcrypt";
 import { jwtSign, jwtVerify } from "../../utils/jwt";
@@ -31,8 +30,8 @@ export const service = {
       otp,
       otpExpiresAt,
     });
-
-    return { newUser };
+    const { username, email, role, _id: id } = newUser;
+    return { username, email, role, _id: id };
     //send the otp to emai sendMail(otp,email) later
   },
   verifyUser: async (payload: { email: string; input: number }) => {

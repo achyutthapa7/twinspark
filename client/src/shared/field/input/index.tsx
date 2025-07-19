@@ -28,7 +28,7 @@ const Input: FC<InputProps> = ({
                 htmlFor={name}
                 style={{ display: "block", fontWeight: 500 }}
               >
-                {label}
+                {!!label && label}
               </StyleLabel>
             )}
 

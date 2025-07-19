@@ -1,22 +1,19 @@
+"use client";
 import { RootState } from "@/lib/store/store";
 import { useMutation } from "@tanstack/react-query";
 
-import { logout, setCredentials } from "../store/userSlice";
+import { logout, setUser } from "../store/userSlice";
 import { userAPI } from "../api/userApi";
 import { AxiosResponse } from "axios";
-import { useRedux } from "@/hooks/useRedux";
+
 import toast from "react-hot-toast";
+import { LoginPayload, LoginResponse } from "../interfaces";
+import { useRouter } from "next/navigation";
+import { Helper } from "@/utils/helper";
+import { useRedux } from "@/shared/hooks/useRedux";
 
-export const useAuth = () => {
-  type LoginPayload = {
-    email: string;
-    password: string;
-  };
-
-  type LoginResponse = {
-    token: string;
-    data: any;
-  };
+export const useLogin = () => {
+  const router = useRouter();
   const { dispatch, useAppSelector } = useRedux();
   const user = useAppSelector((state: RootState) => state.user.user);
   const { isPending, mutateAsync } = useMutation<
@@ -26,13 +23,12 @@ export const useAuth = () => {
   >({
     mutationFn: userAPI.login,
     onSuccess: ({ data }) => {
-      localStorage.setItem("authToken", JSON.stringify(data.data));
-      dispatch(setCredentials(data?.data));
+      Helper.setLocalStorage("authToken", data.data.accessToken);
+      dispatch(setUser(data?.data));
       toast.success("logged in successfully");
+      router.push("/dashboard");
     },
-    onError: (err: any) => {
-      toast.error(err?.response?.data?.message || err.message);
-    },
+    onError: Helper.handleMutationError,
   });
 
   const handleLogout = () => {

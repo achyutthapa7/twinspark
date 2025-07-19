@@ -1,13 +1,14 @@
 import { env } from "@/utils/env";
+import { Helper } from "@/utils/helper";
 import axios from "axios";
 
 export const api = axios.create({
   baseURL: env.BASE_URL,
   timeout: 10000,
 });
-console.log("url", env.BASE_URL);
+
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("authToken");
+  const token = Helper.getLocalStorage("authToken");
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
